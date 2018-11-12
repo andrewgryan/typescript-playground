@@ -1,5 +1,6 @@
 const expect = require('chai').expect
-const barbs = require('./barbs')
+import * as barbs from './barbs'
+import {Tails} from './barbs'
 
 describe('wind_barbs', function() {
     describe('count_tails', function() {
@@ -21,8 +22,8 @@ describe('wind_barbs', function() {
         }
     })
 
-    describe('draw', function() {
-        it('should draw a half barb', function() {
+    describe('vertices', function() {
+        it('should trace a half barb', function() {
             check({flags: 0, full_barbs: 0, half_barbs: 1}, [
                 [0, 0],
                 [-7, 0],
@@ -32,7 +33,7 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        it('should draw a full barb', function() {
+        it('should trace a full barb', function() {
             check({flags: 0, full_barbs: 1, half_barbs: 0}, [
                 [0, 0],
                 [-7, 0],
@@ -41,7 +42,7 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        it('should draw two full barbs', function() {
+        it('should trace two full barbs', function() {
             check({flags: 0, full_barbs: 2, half_barbs: 0}, [
                 [0, 0],
                 [-7, 0],
@@ -53,7 +54,7 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        it('should draw two and a half barbs', function() {
+        it('should trace two and a half barbs', function() {
             check({flags: 0, full_barbs: 2, half_barbs: 1}, [
                 [0, 0],
                 [-7, 0],
@@ -68,7 +69,7 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        it('should draw a flag', function() {
+        it('should trace a flag', function() {
             check({flags: 1, full_barbs: 0, half_barbs: 0}, [
                 [0, 0],
                 [-7, 0],
@@ -77,8 +78,8 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        let check = function(barb: Barb, expected) {
-            let actual = barbs.draw(barb)
+        let check = function(tails: Tails, expected) {
+            let actual = barbs.vertices(tails)
             expect(actual).deep.equal(expected)
         }
     })
@@ -108,4 +109,15 @@ describe('wind_barbs', function() {
             expect(actual).to.equal(expected)
         }
     })
+
+    describe('draw', function() {
+        it('should draw half barb', function() {
+            let ctx;
+            let x = 0;
+            let y = 0;
+            let u = 5;
+            let v = 0;
+            barbs.draw(ctx, x, y, u, v)
+        })
+    });
 })

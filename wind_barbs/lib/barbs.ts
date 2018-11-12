@@ -1,20 +1,47 @@
 "use strict";
 
-interface Barb {
+export interface Tails {
     flags: number;
     full_barbs: number;
     half_barbs: number;
 }
 
-export const draw = function(barb: Barb) {
-    let length = 7
-    let spacing = 0.875
-    let height = 2.8
+export const draw = function(
+    ctx, x, y, u, v,
+    scale=1
+) {
+    let xs, ys
+    let c = speed(u, v)
+    let tails = count_tails(c)
+    let xys = vertices(tails)
+    ctx.beginPath()
+    for (let j=0; j<xys.length; j++) {
+        xs = x + (scale * xys[j][0])
+        ys = y + (scale * xys[j][1])
+        if (j === 0) {
+            ctx.moveTo(xs, ys)
+        } else {
+            ctx.lineTo(xs, ys)
+        }
+    }
+    ctx.strokeStyle = "#222"
+    ctx.stroke()
+    ctx.fillStyle = "#222"
+    ctx.fill()
+    ctx.closePath()
+}
+
+export const vertices = function(
+    tails: Tails,
+    height=2.8,
+    length=7,
+    spacing=0.875
+) {
 
     // Special case for lone half barb
-    if ((barb.flags === 0) &&
-        (barb.full_barbs === 0) &&
-        (barb.half_barbs === 1)) {
+    if ((tails.flags === 0) &&
+        (tails.full_barbs === 0) &&
+        (tails.half_barbs === 1)) {
         let position = -length + (1.5 *spacing)
         return [
             [0, 0],
@@ -29,23 +56,23 @@ export const draw = function(barb: Barb) {
     let vertices = []
     let position = -length
     vertices.push([0, 0])
-    if (barb.flags > 0) {
-        for (let ib=0; ib<barb.flags; ib++) {
+    if (tails.flags > 0) {
+        for (let ib=0; ib<tails.flags; ib++) {
             vertices.push([position, 0])
             vertices.push([position + spacing, height])
             vertices.push([position + (2 * spacing), 0])
             position += 2 * spacing
         }
     }
-    if (barb.full_barbs > 0) {
-        for (let ib=0; ib<barb.full_barbs; ib++) {
+    if (tails.full_barbs > 0) {
+        for (let ib=0; ib<tails.full_barbs; ib++) {
             vertices.push([position, 0])
             vertices.push([position - spacing, height])
             vertices.push([position, 0])
             position += spacing
         }
     }
-    if (barb.half_barbs > 0) {
+    if (tails.half_barbs > 0) {
         vertices.push([position, 0])
         vertices.push([position - (spacing / 2), height/2])
         vertices.push([position, 0])
@@ -55,7 +82,7 @@ export const draw = function(barb: Barb) {
     return vertices
 }
 
-export const count_tails = function(speed: number) : Barb {
+export const count_tails = function(speed: number) : Tails {
     let flags = ~~(speed / 50)
     if (flags > 0) {
         speed = speed - (flags * 50)

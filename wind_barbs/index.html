@@ -23,22 +23,20 @@
 
                 // Draw a line on the canvas
                 let ctx = c.getContext("2d");
-                ctx.moveTo(200, 200);
-                ctx.lineTo(300, 300)
-                ctx.stroke()
-
-                vertices = draw({flags: 0, full_barbs: 1, half_barbs: 1})
-                for (let i=0; i<vertices.length; i++) {
-                    let x = vertices[i][0]
-                    let y = vertices[i][1]
-                    if (i === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y)
-                    }
-                    ctx.stroke()
-                }
+                exports.draw(ctx, 300, 200, 65, 0,
+                    scale=5)
+                exports.draw(ctx, 400, 200, 45, 0,
+                    scale=5)
+                exports.draw(ctx, 500, 200, 15, 0,
+                    scale=5)
+                exports.draw(ctx, 300, 100, 105, 0,
+                    scale=5)
+                exports.draw(ctx, 400, 100, 5, 0,
+                    scale=5)
+                exports.draw(ctx, 500, 100, 20, 0,
+                    scale=5)
             }
+
         </script>
         <script src="dist/barbs.js"></script>
     </body>
