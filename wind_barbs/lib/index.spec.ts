@@ -26,7 +26,7 @@ let draw = function(barb: Barb) {
             [0, 0],
             [-7, 0],
             [-5.6875, 0],
-            [-6.125, 1.4],
+            [-6.125, height / 2],
             [-5.6875, 0],
             [0, 0]
         ]
@@ -35,6 +35,14 @@ let draw = function(barb: Barb) {
     let vertices = []
     let position = -length
     vertices.push([0, 0])
+    if (barb.flags > 0) {
+        for (let ib=0; ib<barb.flags; ib++) {
+            vertices.push([position, 0])
+            vertices.push([position + spacing, height])
+            vertices.push([position + (2 * spacing), 0])
+            position += 2 * spacing
+        }
+    }
     if (barb.full_barbs > 0) {
         for (let ib=0; ib<barb.full_barbs; ib++) {
             vertices.push([position, 0])
@@ -104,52 +112,65 @@ describe('wind_barb', function() {
     })
 
     describe('draw', function() {
-        it('should return drawing instructions for half_barb', function() {
-            let actual = draw({flags: 0, full_barbs: 0, half_barbs: 1})
-            let expected = [[0, 0],
-                            [-7, 0],
-                            [-5.6875, 0],
-                            [-6.125, 1.4],
-                            [-5.6875, 0],
-                            [0, 0]]
-            expect(actual).deep.equal(expected)
+        it('should draw a half barb', function() {
+            check({flags: 0, full_barbs: 0, half_barbs: 1}, [
+                [0, 0],
+                [-7, 0],
+                [-5.6875, 0],
+                [-6.125, 1.4],
+                [-5.6875, 0],
+                [0, 0]
+            ])
         })
-        it('should return drawing instructions for full_barb', function() {
-            let actual = draw({flags: 0, full_barbs: 1, half_barbs: 0})
-            let expected = [[0, 0],
-                            [-7, 0],
-                            [-7.875, 2.8],
-                            [-7, 0],
-                            [0, 0]]
-            expect(actual).deep.equal(expected)
+        it('should draw a full barb', function() {
+            check({flags: 0, full_barbs: 1, half_barbs: 0}, [
+                [0, 0],
+                [-7, 0],
+                [-7.875, 2.8],
+                [-7, 0],
+                [0, 0]
+            ])
         })
-        it('should return drawing instructions for two full_barbs', function() {
-            let actual = draw({flags: 0, full_barbs: 2, half_barbs: 0})
-            let expected = [[0, 0],
-                            [-7, 0],
-                            [-7.875, 2.8],
-                            [-7, 0],
-                            [-6.125, 0],
-                            [-7, 2.8],
-                            [-6.125, 0],
-                            [0, 0]]
-            expect(actual).deep.equal(expected)
+        it('should draw two full barbs', function() {
+            check({flags: 0, full_barbs: 2, half_barbs: 0}, [
+                [0, 0],
+                [-7, 0],
+                [-7.875, 2.8],
+                [-7, 0],
+                [-6.125, 0],
+                [-7, 2.8],
+                [-6.125, 0],
+                [0, 0]
+            ])
         })
-        it('should return drawing instructions for two and a half barbs', function() {
-            let actual = draw({flags: 0, full_barbs: 2, half_barbs: 1})
-            let expected = [[0, 0],
-                            [-7, 0],
-                            [-7.875, 2.8],
-                            [-7, 0],
-                            [-6.125, 0],
-                            [-7, 2.8],
-                            [-6.125, 0],
-                            [-5.25, 0],
-                            [-5.6875, 1.4],
-                            [-5.25, 0],
-                            [0, 0]]
-            expect(actual).deep.equal(expected)
+        it('should draw two and a half barbs', function() {
+            check({flags: 0, full_barbs: 2, half_barbs: 1}, [
+                [0, 0],
+                [-7, 0],
+                [-7.875, 2.8],
+                [-7, 0],
+                [-6.125, 0],
+                [-7, 2.8],
+                [-6.125, 0],
+                [-5.25, 0],
+                [-5.6875, 1.4],
+                [-5.25, 0],
+                [0, 0]
+            ])
         })
+        it('should draw a flag', function() {
+            check({flags: 1, full_barbs: 0, half_barbs: 0}, [
+                [0, 0],
+                [-7, 0],
+                [-6.125, 2.8],
+                [-5.25, 0],
+                [0, 0]
+            ])
+        })
+        let check = function(barb: Barb, expected) {
+            let actual = draw(barb)
+            expect(actual).deep.equal(expected)
+        }
     })
 
     describe('wind_speed', function() {
