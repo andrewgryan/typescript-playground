@@ -17,27 +17,40 @@ let draw = function(barb: Barb) {
     let length = 7
     let spacing = 0.875
     let height = 2.8
+
+    // Special case for lone half barb
+    if ((barb.flags === 0) &&
+        (barb.full_barbs === 0) &&
+        (barb.half_barbs === 1)) {
+        return [
+            [0, 0],
+            [-7, 0],
+            [-5.6875, 0],
+            [-6.125, 1.4],
+            [-5.6875, 0],
+            [0, 0]
+        ]
+    }
+
     let vertices = []
+    let position = -length
+    vertices.push([0, 0])
     if (barb.full_barbs > 0) {
-        vertices.push([0, 0])
-        let position = -length
         for (let ib=0; ib<barb.full_barbs; ib++) {
             vertices.push([position, 0])
             vertices.push([position - spacing, height])
             vertices.push([position, 0])
             position += spacing
         }
-        vertices.push([0, 0])
-        return vertices
     }
-    return [
-        [0, 0],
-        [-7, 0],
-        [-5.6875, 0],
-        [-6.125, 1.4],
-        [-5.6875, 0],
-        [0, 0]
-    ]
+    if (barb.half_barbs > 0) {
+        vertices.push([position, 0])
+        vertices.push([position - (spacing / 2), height/2])
+        vertices.push([position, 0])
+        position += spacing
+    }
+    vertices.push([0, 0])
+    return vertices
 }
 
 let count_flags = function(speed: number) : Barb {
@@ -119,6 +132,21 @@ describe('wind_barb', function() {
                             [-6.125, 0],
                             [-7, 2.8],
                             [-6.125, 0],
+                            [0, 0]]
+            expect(actual).deep.equal(expected)
+        })
+        it('should return drawing instructions for two and a half barbs', function() {
+            let actual = draw({flags: 0, full_barbs: 2, half_barbs: 1})
+            let expected = [[0, 0],
+                            [-7, 0],
+                            [-7.875, 2.8],
+                            [-7, 0],
+                            [-6.125, 0],
+                            [-7, 2.8],
+                            [-6.125, 0],
+                            [-5.25, 0],
+                            [-5.6875, 1.4],
+                            [-5.25, 0],
                             [0, 0]]
             expect(actual).deep.equal(expected)
         })
