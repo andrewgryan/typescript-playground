@@ -1,4 +1,5 @@
 const expect = require('chai').expect
+const barbs = require('./barbs')
 
 interface Barb {
     flags: number;
@@ -70,14 +71,6 @@ let count_tails = function(speed: number) : Barb {
         'full_barbs': full_barbs,
         'half_barbs': half_barbs
     }
-}
-
-let speed = function(u : number, v : number) : number {
-    return Math.sqrt(u**2 + v**2)
-}
-
-let direction = function(u : number, v : number) : number {
-    return Math.atan2(v, u)
 }
 
 describe('wind_barbs', function() {
@@ -166,7 +159,7 @@ describe('wind_barbs', function() {
         it('should return magnitude of vector', function() {
             let u = 3
             let v = 4
-            let actual = speed(u, v)
+            let actual = barbs.speed(u, v)
             let expected = 5
             expect(actual).to.equal(expected)
         })
@@ -183,7 +176,7 @@ describe('wind_barbs', function() {
             check(1, 1, Math.PI / 4)
         })
         let check = function(u, v, expected) {
-            let actual = direction(u, v)
+            let actual = barbs.direction(u, v)
             expect(actual).to.equal(expected)
         }
     })
