@@ -6,13 +6,6 @@ interface Barb {
     half_barbs: number;
 }
 
-let wind_barb = function() {
-    return [
-        [0, 0],
-        [7, 0]
-    ];
-}
-
 let draw = function(barb: Barb) {
     let length = 7
     let spacing = 0.875
@@ -61,7 +54,7 @@ let draw = function(barb: Barb) {
     return vertices
 }
 
-let count_flags = function(speed: number) : Barb {
+let count_tails = function(speed: number) : Barb {
     let flags = ~~(speed / 50)
     if (flags > 0) {
         speed = speed - (flags * 50)
@@ -78,21 +71,16 @@ let count_flags = function(speed: number) : Barb {
     }
 }
 
-let wind_speed = function(u, v) {
+let speed = function(u : number, v : number) : number {
     return Math.sqrt(u**2 + v**2)
 }
 
-describe('wind_barb', function() {
-    it('should return vertices', function() {
-        let actual = wind_barb();
-        let expected = [
-            [0, 0],
-            [7, 0]
-        ];
-        expect(actual).deep.equal(expected)
-    })
+let direction = function(u : number, v : number) : number {
+    return Math.atan2(v, u)
+}
 
-    describe('count_flags', function() {
+describe('wind_barbs', function() {
+    describe('count_tails', function() {
         it('should return zero given calm conditions', function() {
             check(2, {'flags': 0, 'full_barbs': 0, 'half_barbs': 0})
         })
@@ -106,7 +94,7 @@ describe('wind_barb', function() {
             check(15, {'flags': 0, 'full_barbs': 1, 'half_barbs': 1})
         })
         let check = function(speed, expected) {
-            let actual = count_flags(speed)
+            let actual = count_tails(speed)
             expect(actual).deep.equal(expected)
         }
     })
@@ -173,13 +161,29 @@ describe('wind_barb', function() {
         }
     })
 
-    describe('wind_speed', function() {
-        it('should return magnitude of U, V', function() {
+    describe('speed', function() {
+        it('should return magnitude of vector', function() {
             let u = 3
             let v = 4
-            let actual = wind_speed(u, v)
+            let actual = speed(u, v)
             let expected = 5
             expect(actual).to.equal(expected)
         })
+    })
+
+    describe('direction', function() {
+        it('should return direction of U vector', function() {
+            check(1, 0, 0)
+        })
+        it('should return direction of V vector', function() {
+            check(0, 1, Math.PI / 2)
+        })
+        it('should return direction of (1, 1)', function() {
+            check(1, 1, Math.PI / 4)
+        })
+        let check = function(u, v, expected) {
+            let actual = direction(u, v)
+            expect(actual).to.equal(expected)
+        }
     })
 })
