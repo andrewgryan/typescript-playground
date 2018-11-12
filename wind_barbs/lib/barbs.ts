@@ -12,12 +12,15 @@ export const draw = function(
 ) {
     let xs, ys
     let c = speed(u, v)
+    let angle = direction(u, v)
     let tails = count_tails(c)
     let xys = vertices(tails)
+    ctx.translate(x, y)
+    ctx.rotate(angle)
     ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
-        xs = x + (scale * xys[j][0])
-        ys = y + (scale * xys[j][1])
+        xs = scale * xys[j][0]
+        ys = scale * xys[j][1]
         if (j === 0) {
             ctx.moveTo(xs, ys)
         } else {
@@ -29,6 +32,8 @@ export const draw = function(
     ctx.fillStyle = "#222"
     ctx.fill()
     ctx.closePath()
+    ctx.rotate(-angle)
+    ctx.translate(-x, -y)
 }
 
 export const vertices = function(
