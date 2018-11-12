@@ -8,7 +8,10 @@
                 margin: 0;
             }
         </style>
-        <script src="lib/barbs.js"></script>
+        <script>
+            module = {exports:{}}; exports = {};
+            window.require = function(name) { return window[name]; };
+        </script>
     </head>
     <body>
         <canvas id="canvas"></canvas>
@@ -37,5 +40,6 @@
                 }
             }
         </script>
+        <script src="dist/barbs.js"></script>
     </body>
 </html>

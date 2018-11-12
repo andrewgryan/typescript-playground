@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const barbs = require('./barbs')
+import barbs = require('./barbs')
 
 interface Barb {
     flags: number;
