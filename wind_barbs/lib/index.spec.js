@@ -1,10 +1,31 @@
 const expect = require('chai').expect
 
+
 let wind_barb = function() {
     return [
         [0, 0],
         [7, 0]
     ];
+}
+
+let draw = function(barb) {
+    if (barb.full_barbs === 1) {
+        return [
+            [0, 0],
+            [-7, 0],
+            [-7.875, 2.8],
+            [-7, 0],
+            [0, 0]
+        ]
+    }
+    return [
+        [0, 0],
+        [-7, 0],
+        [-5.6875, 0],
+        [-6.125, 1.4],
+        [-5.6875, 0],
+        [0, 0]
+    ]
 }
 
 let count_flags = function(speed) {
@@ -55,6 +76,28 @@ describe('wind_barb', function() {
             let actual = count_flags(speed)
             expect(actual).deep.equal(expected)
         }
+    })
+
+    describe('draw', function() {
+        it('should return drawing instructions for half_barb', function() {
+            let actual = draw({'flags': 0, 'full_barb': 0, 'half_barb': 1})
+            let expected = [[0, 0],
+                            [-7, 0],
+                            [-5.6875, 0],
+                            [-6.125, 1.4],
+                            [-5.6875, 0],
+                            [0, 0]]
+            expect(actual).deep.equal(expected)
+        })
+        it('should return drawing instructions for full_barb', function() {
+            let actual = draw({'flags': 0, 'full_barb': 1, 'half_barb': 0})
+            let expected = [[0, 0],
+                            [-7, 0],
+                            [-7.875, 2.8],
+                            [-7, 0],
+                            [0, 0]]
+            expect(actual).deep.equal(expected)
+        })
     })
 
     describe('wind_speed', function() {
