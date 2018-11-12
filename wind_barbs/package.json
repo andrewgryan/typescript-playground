@@ -1,0 +1,24 @@
+{
+  "name": "wind_barbs",
+  "version": "1.0.0",
+  "description": "Wind barb plots",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/andrewgryan/typescript-playground.git"
+  },
+  "keywords": [
+    "Typescript",
+    "wind",
+    "barbs"
+  ],
+  "author": "Andrew Ryan",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/andrewgryan/typescript-playground/issues"
+  },
+  "homepage": "https://github.com/andrewgryan/typescript-playground#readme"
+}
