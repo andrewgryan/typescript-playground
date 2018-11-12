@@ -15,12 +15,13 @@ let draw = function(barb: Barb) {
     if ((barb.flags === 0) &&
         (barb.full_barbs === 0) &&
         (barb.half_barbs === 1)) {
+        let position = -length + (1.5 *spacing)
         return [
             [0, 0],
-            [-7, 0],
-            [-5.6875, 0],
-            [-6.125, height / 2],
-            [-5.6875, 0],
+            [-length, 0],
+            [position, 0],
+            [position - (spacing / 2), height / 2],
+            [position, 0],
             [0, 0]
         ]
     }
