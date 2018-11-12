@@ -14,14 +14,21 @@ let wind_barb = function() {
 }
 
 let draw = function(barb: Barb) {
-    if (barb.full_barbs === 1) {
-        return [
-            [0, 0],
-            [-7, 0],
-            [-7.875, 2.8],
-            [-7, 0],
-            [0, 0]
-        ]
+    let length = 7
+    let spacing = 0.875
+    let height = 2.8
+    let vertices = []
+    if (barb.full_barbs > 0) {
+        vertices.push([0, 0])
+        let position = -length
+        for (let ib=0; ib<barb.full_barbs; ib++) {
+            vertices.push([position, 0])
+            vertices.push([position - spacing, height])
+            vertices.push([position, 0])
+            position += spacing
+        }
+        vertices.push([0, 0])
+        return vertices
     }
     return [
         [0, 0],
@@ -100,6 +107,18 @@ describe('wind_barb', function() {
                             [-7, 0],
                             [-7.875, 2.8],
                             [-7, 0],
+                            [0, 0]]
+            expect(actual).deep.equal(expected)
+        })
+        it('should return drawing instructions for two full_barbs', function() {
+            let actual = draw({flags: 0, full_barbs: 2, half_barbs: 0})
+            let expected = [[0, 0],
+                            [-7, 0],
+                            [-7.875, 2.8],
+                            [-7, 0],
+                            [-6.125, 0],
+                            [-7, 2.8],
+                            [-6.125, 0],
                             [0, 0]]
             expect(actual).deep.equal(expected)
         })
