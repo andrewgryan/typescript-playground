@@ -11,10 +11,12 @@ export const draw = function(
     ctx, x, y, u, v,
     scale=1
 ) {
+    let length = 7
+    let radius = length * 0.15
     let c = speed(u, v)
     let tails = count_tails(c)
     if (tails.calm === 1) {
-        draw_calm(ctx, x, y, scale)
+        draw_calm(ctx, x, y, scale * radius)
     } else {
         draw_arrow(ctx, x, y, u, v, scale)
     }
