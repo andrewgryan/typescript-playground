@@ -68,6 +68,11 @@ export const vertices = function(
             vertices.push([position + spacing, height])
             vertices.push([position + (2 * spacing), 0])
             position += 2 * spacing
+            if (ib === (tails.flags - 1)) {
+                position += spacing
+            } else {
+                position += (spacing / 2)
+            }
         }
     }
     if (tails.full_barbs > 0) {

@@ -78,6 +78,33 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
+        it('should trace two flags', function() {
+            check({flags: 2, full_barbs: 0, half_barbs: 0}, [
+                [0, 0],
+                [-7, 0],
+                [-6.125, 2.8],
+                [-5.25, 0],
+                [-4.8125, 0],
+                [-3.9375, 2.8],
+                [-3.0625, 0],
+                [0, 0]
+            ])
+        })
+        it('should trace two flags and a barb', function() {
+            check({flags: 2, full_barbs: 1, half_barbs: 0}, [
+                [0, 0],
+                [-7, 0],
+                [-6.125, 2.8],
+                [-5.25, 0],
+                [-4.8125, 0],
+                [-3.9375, 2.8],
+                [-3.0625, 0],
+                [-2.1875, 0],
+                [-3.0625, 2.8],
+                [-2.1875, 0],
+                [0, 0]
+            ])
+        })
         let check = function(tails: Tails, expected) {
             let actual = barbs.vertices(tails)
             expect(actual).deep.equal(expected)
@@ -111,7 +138,7 @@ describe('wind_barbs', function() {
     })
 
     describe('draw', function() {
-        it('should draw half barb', function() {
+        xit('should draw half barb', function() {
             let ctx;
             let x = 0;
             let y = 0;
