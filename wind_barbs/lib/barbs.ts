@@ -13,10 +13,11 @@ export const draw = function(
     let length = 7
     let radius = length * 0.15
     let c = speed(u, v)
+    let angle = direction(u, v)
     if (c < 5) {
         draw_calm(ctx, x, y, scale * radius)
     } else {
-        draw_arrow(ctx, x, y, u, v, scale)
+        draw_arrow(ctx, x, y, c, angle, scale)
     }
 }
 
@@ -24,17 +25,13 @@ export const draw_calm = function(ctx, x, y, r) {
     ctx.beginPath()
     ctx.arc(x, y, r, 0, 2 * Math.PI)
     ctx.strokeStyle = "black"
-    ctx.strokeWidth = 0.1
     ctx.stroke()
     ctx.closePath()
 }
 
-export const draw_arrow = function(ctx, x, y, u, v, scale) {
+export const draw_arrow = function(ctx, x, y, c, angle, scale) {
     let xs, ys
-    let c = speed(u, v)
-    let tails = count_tails(c)
-    let angle = direction(u, v)
-    let xys = vertices(tails)
+    let xys = vertices(count_tails(c))
     ctx.translate(x, y)
     ctx.rotate(-angle)
     ctx.beginPath()
@@ -50,7 +47,6 @@ export const draw_arrow = function(ctx, x, y, u, v, scale) {
     ctx.fillStyle = "gray"
     ctx.fill()
     ctx.strokeStyle = "black"
-    ctx.strokeWidth = 0.1
     ctx.stroke()
     ctx.closePath()
     ctx.rotate(angle)
