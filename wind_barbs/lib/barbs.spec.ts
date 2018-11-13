@@ -1,4 +1,6 @@
-const expect = require('chai').expect
+import 'mocha'
+import {expect} from 'chai'
+import * as sinon from 'sinon'
 import * as barbs from './barbs'
 import {Arrow} from './barbs'
 
@@ -159,13 +161,35 @@ describe('wind_barbs', function() {
     })
 
     describe('draw', function() {
-        xit('should draw half barb', function() {
-            let ctx;
-            let x = 0;
-            let y = 0;
+        it('should draw half barb', function() {
+            // Integration test to confirm canvas context
+            // used correctly
+            let ctx = {
+                translate: sinon.fake(),
+                rotate: sinon.fake(),
+                beginPath: sinon.fake(),
+                closePath: sinon.fake(),
+                moveTo: sinon.fake(),
+                lineTo: sinon.fake(),
+                fill: sinon.fake(),
+                stroke: sinon.fake(),
+            };
+            let x = 1;
+            let y = 1;
             let u = 5;
-            let v = 0;
+            let v = 5;
             barbs.draw(ctx, x, y, u, v)
+            // Note: the order of operation isn't being checked
+            sinon.assert.calledOnce(ctx.beginPath)
+            sinon.assert.calledWith(ctx.translate, 1, 1)
+            sinon.assert.calledWith(ctx.rotate, -Math.PI / 4)
+            sinon.assert.calledWith(ctx.translate, -1, -1)
+            sinon.assert.calledWith(ctx.moveTo, 0, 0)
+            sinon.assert.calledWith(ctx.lineTo, 0, 0)
+            sinon.assert.calledWith(ctx.rotate, Math.PI / 4)
+            sinon.assert.calledOnce(ctx.stroke)
+            sinon.assert.calledOnce(ctx.fill)
+            sinon.assert.calledOnce(ctx.closePath)
         })
     });
 })
