@@ -30,20 +30,16 @@
                 ctx.lineWidth = 1;
                 ctx.lineStyle = "black";
 
-                // Draw a line on the canvas
+                // Draw barbs on the canvas
                 let scale = 5
-                exports.draw(ctx, 300, 200, 65, 0,
-                    scale=scale)
-                exports.draw(ctx, 400, 200, 45, 0,
-                    scale=scale)
-                exports.draw(ctx, 500, 200, 15, 0,
-                    scale=scale)
-                exports.draw(ctx, 300, 100, 105, 0,
-                    scale=scale)
-                exports.draw(ctx, 400, 100, 5, 5,
-                    scale=scale)
-                exports.draw(ctx, 500, 100, 20, 20,
-                    scale=scale)
+                let x = [300, 400, 500, 300, 400, 500, 600]
+                let y = [200, 200, 200, 100, 100, 100, 100]
+                let u = [65, 45, 15, 105, 5, 20, 0]
+                let v = [0, 0, 0, 0, 5, 25, 0]
+                for (let i=0; i<x.length; i++) {
+                    exports.draw(ctx, x[i], y[i], u[i], v[i],
+                        scale=scale)
+                }
             }
 
         </script>

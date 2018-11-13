@@ -4,17 +4,17 @@ import {Tails} from './barbs'
 
 describe('wind_barbs', function() {
     describe('count_tails', function() {
-        it('should return zero given calm conditions', function() {
-            check(2, {'flags': 0, 'full_barbs': 0, 'half_barbs': 0})
+        it('should return one given calm conditions', function() {
+            check(2, {'flags': 0, 'full_barbs': 0, 'half_barbs': 0, 'calm': 1})
         })
         it('should return one given wind speed greater than 50', function() {
-            check(50, {'flags': 1, 'full_barbs': 0, 'half_barbs': 0})
+            check(50, {'flags': 1, 'full_barbs': 0, 'half_barbs': 0, 'calm': 0})
         })
         it('should return one barb given 10', function() {
-            check(10, {'flags': 0, 'full_barbs': 1, 'half_barbs': 0})
+            check(10, {'flags': 0, 'full_barbs': 1, 'half_barbs': 0, 'calm': 0})
         })
         it('should return one and a half barbs given 15', function() {
-            check(15, {'flags': 0, 'full_barbs': 1, 'half_barbs': 1})
+            check(15, {'flags': 0, 'full_barbs': 1, 'half_barbs': 1, 'calm': 0})
         })
         let check = function(speed, expected) {
             let actual = barbs.count_tails(speed)
@@ -22,9 +22,27 @@ describe('wind_barbs', function() {
         }
     })
 
+    describe('calm', function() {
+        it('should draw circle', function() {
+            let calledWith
+            let ctx = {
+                arc: function() {
+                    calledWith = Array.from(arguments)
+                }
+            }
+            let x = 0
+            let y = 0
+            let r = 1
+            barbs.draw_calm(ctx, x, y)
+            let expected = [x, y, r, 0, 2 * Math.PI]
+            let actual = calledWith
+            expect(actual).deep.equal(expected)
+        })
+    })
+
     describe('vertices', function() {
         it('should trace a half barb', function() {
-            check({flags: 0, full_barbs: 0, half_barbs: 1}, [
+            check({flags: 0, full_barbs: 0, half_barbs: 1, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-5.6875, 0],
@@ -34,7 +52,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace a full barb', function() {
-            check({flags: 0, full_barbs: 1, half_barbs: 0}, [
+            check({flags: 0, full_barbs: 1, half_barbs: 0, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-7.875, 2.8],
@@ -43,7 +61,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace two full barbs', function() {
-            check({flags: 0, full_barbs: 2, half_barbs: 0}, [
+            check({flags: 0, full_barbs: 2, half_barbs: 0, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-7.875, 2.8],
@@ -55,7 +73,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace two and a half barbs', function() {
-            check({flags: 0, full_barbs: 2, half_barbs: 1}, [
+            check({flags: 0, full_barbs: 2, half_barbs: 1, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-7.875, 2.8],
@@ -70,7 +88,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace a flag', function() {
-            check({flags: 1, full_barbs: 0, half_barbs: 0}, [
+            check({flags: 1, full_barbs: 0, half_barbs: 0, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-6.125, 2.8],
@@ -79,7 +97,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace two flags', function() {
-            check({flags: 2, full_barbs: 0, half_barbs: 0}, [
+            check({flags: 2, full_barbs: 0, half_barbs: 0, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-6.125, 2.8],
@@ -91,7 +109,7 @@ describe('wind_barbs', function() {
             ])
         })
         it('should trace two flags and a barb', function() {
-            check({flags: 2, full_barbs: 1, half_barbs: 0}, [
+            check({flags: 2, full_barbs: 1, half_barbs: 0, calm: 0}, [
                 [0, 0],
                 [-7, 0],
                 [-6.125, 2.8],

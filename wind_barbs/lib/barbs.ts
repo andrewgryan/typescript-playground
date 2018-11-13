@@ -4,16 +4,36 @@ export interface Tails {
     flags: number;
     full_barbs: number;
     half_barbs: number;
+    calm: number;
 }
 
 export const draw = function(
     ctx, x, y, u, v,
     scale=1
 ) {
+    let c = speed(u, v)
+    let tails = count_tails(c)
+    if (tails.calm === 1) {
+        draw_calm(ctx, x, y, scale)
+    } else {
+        draw_arrow(ctx, x, y, u, v, scale)
+    }
+}
+
+export const draw_calm = function(ctx, x, y, r) {
+    ctx.beginPath()
+    ctx.arc(x, y, r, 0, 2 * Math.PI)
+    ctx.strokeStyle = "black"
+    ctx.strokeWidth = 0.1
+    ctx.stroke()
+    ctx.closePath()
+}
+
+export const draw_arrow = function(ctx, x, y, u, v, scale) {
     let xs, ys
     let c = speed(u, v)
-    let angle = direction(u, v)
     let tails = count_tails(c)
+    let angle = direction(u, v)
     let xys = vertices(tails)
     ctx.translate(x, y)
     ctx.rotate(angle)
@@ -94,19 +114,26 @@ export const vertices = function(
 }
 
 export const count_tails = function(speed: number) : Tails {
-    let flags = ~~(speed / 50)
+    let flags, full_barbs, half_barbs, calm
+    if (speed < 5) {
+        calm = 1
+    } else {
+        calm = 0
+    }
+    flags = ~~(speed / 50)
     if (flags > 0) {
         speed = speed - (flags * 50)
     }
-    let full_barbs = ~~(speed / 10)
+    full_barbs = ~~(speed / 10)
     if (full_barbs > 0) {
         speed = speed - (full_barbs * 10)
     }
-    let half_barbs = ~~(speed / 5)
+    half_barbs = ~~(speed / 5)
     return {
         'flags': flags,
         'full_barbs': full_barbs,
-        'half_barbs': half_barbs
+        'half_barbs': half_barbs,
+        'calm': calm
     }
 }
 export const speed = function(u : number, v : number) : number {
