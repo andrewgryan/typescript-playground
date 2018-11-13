@@ -54,16 +54,16 @@ export const draw_arrow = function(ctx, x, y, c, angle, scale) {
 }
 
 export const vertices = function(
-    tails: Arrow,
+    arrow: Arrow,
     height=2.8,
     length=7,
     spacing=0.875
 ) {
 
     // Special case for lone half barb
-    if ((tails.flags === 0) &&
-        (tails.full_barbs === 0) &&
-        (tails.half_barbs === 1)) {
+    if ((arrow.flags === 0) &&
+        (arrow.full_barbs === 0) &&
+        (arrow.half_barbs === 1)) {
         let position = -length + (1.5 *spacing)
         return [
             [0, 0],
@@ -75,38 +75,38 @@ export const vertices = function(
         ]
     }
 
-    let vertices = []
+    let pts = []
     let position = -length
-    vertices.push([0, 0])
-    if (tails.flags > 0) {
-        for (let ib=0; ib<tails.flags; ib++) {
-            vertices.push([position, 0])
-            vertices.push([position + spacing, height])
-            vertices.push([position + (2 * spacing), 0])
+    pts.push([0, 0])
+    if (arrow.flags > 0) {
+        for (let ib=0; ib<arrow.flags; ib++) {
+            pts.push([position, 0])
+            pts.push([position + spacing, height])
+            pts.push([position + (2 * spacing), 0])
             position += 2 * spacing
-            if (ib === (tails.flags - 1)) {
+            if (ib === (arrow.flags - 1)) {
                 position += spacing
             } else {
                 position += (spacing / 2)
             }
         }
     }
-    if (tails.full_barbs > 0) {
-        for (let ib=0; ib<tails.full_barbs; ib++) {
-            vertices.push([position, 0])
-            vertices.push([position - spacing, height])
-            vertices.push([position, 0])
+    if (arrow.full_barbs > 0) {
+        for (let ib=0; ib<arrow.full_barbs; ib++) {
+            pts.push([position, 0])
+            pts.push([position - spacing, height])
+            pts.push([position, 0])
             position += spacing
         }
     }
-    if (tails.half_barbs > 0) {
-        vertices.push([position, 0])
-        vertices.push([position - (spacing / 2), height/2])
-        vertices.push([position, 0])
+    if (arrow.half_barbs > 0) {
+        pts.push([position, 0])
+        pts.push([position - (spacing / 2), height/2])
+        pts.push([position, 0])
         position += spacing
     }
-    vertices.push([0, 0])
-    return vertices
+    pts.push([0, 0])
+    return pts
 }
 
 export const count_tails = function(speed: number) : Arrow {
