@@ -4,7 +4,6 @@ export interface Tails {
     flags: number;
     full_barbs: number;
     half_barbs: number;
-    calm: number;
 }
 
 export const draw = function(
@@ -14,8 +13,7 @@ export const draw = function(
     let length = 7
     let radius = length * 0.15
     let c = speed(u, v)
-    let tails = count_tails(c)
-    if (tails.calm === 1) {
+    if (c < 5) {
         draw_calm(ctx, x, y, scale * radius)
     } else {
         draw_arrow(ctx, x, y, u, v, scale)
@@ -116,12 +114,7 @@ export const vertices = function(
 }
 
 export const count_tails = function(speed: number) : Tails {
-    let flags, full_barbs, half_barbs, calm
-    if (speed < 5) {
-        calm = 1
-    } else {
-        calm = 0
-    }
+    let flags, full_barbs, half_barbs
     flags = ~~(speed / 50)
     if (flags > 0) {
         speed = speed - (flags * 50)
@@ -134,8 +127,7 @@ export const count_tails = function(speed: number) : Tails {
     return {
         'flags': flags,
         'full_barbs': full_barbs,
-        'half_barbs': half_barbs,
-        'calm': calm
+        'half_barbs': half_barbs
     }
 }
 export const speed = function(u : number, v : number) : number {
