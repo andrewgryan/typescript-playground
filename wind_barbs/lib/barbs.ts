@@ -36,7 +36,7 @@ export const draw_arrow = function(ctx, x, y, u, v, scale) {
     let angle = direction(u, v)
     let xys = vertices(tails)
     ctx.translate(x, y)
-    ctx.rotate(angle)
+    ctx.rotate(-angle)
     ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
         xs = scale * xys[j][0]
@@ -53,7 +53,7 @@ export const draw_arrow = function(ctx, x, y, u, v, scale) {
     ctx.strokeWidth = 0.1
     ctx.stroke()
     ctx.closePath()
-    ctx.rotate(-angle)
+    ctx.rotate(angle)
     ctx.translate(-x, -y)
 }
 
