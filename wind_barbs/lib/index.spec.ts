@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 import * as barbs from './barbs'
-import {Tails} from './barbs'
+import {Arrow} from './barbs'
 
 describe('wind_barbs', function() {
     describe('count_tails', function() {
@@ -126,8 +126,8 @@ describe('wind_barbs', function() {
                 [0, 0]
             ])
         })
-        let check = function(tails: Tails, expected) {
-            let actual = barbs.vertices(tails)
+        let check = function(arrow: Arrow, expected) {
+            let actual = barbs.vertices(arrow)
             expect(actual).deep.equal(expected)
         }
     })

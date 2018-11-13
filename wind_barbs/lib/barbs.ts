@@ -1,6 +1,6 @@
 "use strict";
 
-export interface Tails {
+export interface Arrow {
     flags: number;
     full_barbs: number;
     half_barbs: number;
@@ -54,7 +54,7 @@ export const draw_arrow = function(ctx, x, y, c, angle, scale) {
 }
 
 export const vertices = function(
-    tails: Tails,
+    tails: Arrow,
     height=2.8,
     length=7,
     spacing=0.875
@@ -109,7 +109,7 @@ export const vertices = function(
     return vertices
 }
 
-export const count_tails = function(speed: number) : Tails {
+export const count_tails = function(speed: number) : Arrow {
     let flags, full_barbs, half_barbs
     flags = ~~(speed / 50)
     if (flags > 0) {
