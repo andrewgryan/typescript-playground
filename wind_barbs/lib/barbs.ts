@@ -20,17 +20,18 @@ export const draw = function(
     ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
         xs = scale * xys[j][0]
-        ys = scale * xys[j][1]
+        ys = -scale * xys[j][1]
         if (j === 0) {
             ctx.moveTo(xs, ys)
         } else {
             ctx.lineTo(xs, ys)
         }
     }
-    ctx.strokeStyle = "#222"
-    ctx.stroke()
-    ctx.fillStyle = "#222"
+    ctx.fillStyle = "gray"
     ctx.fill()
+    ctx.strokeStyle = "black"
+    ctx.strokeWidth = 0.1
+    ctx.stroke()
     ctx.closePath()
     ctx.rotate(-angle)
     ctx.translate(-x, -y)

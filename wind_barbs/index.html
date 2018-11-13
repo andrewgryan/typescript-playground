@@ -18,23 +18,32 @@
         <script>
             window.onload = function() {
                 let c = document.getElementById("canvas")
-                c.width = window.innerWidth;
-                c.height = window.innerHeight;
+                let dpr = window.devicePixelRatio || 1;
+                c.width = dpr * window.innerWidth
+                c.height = dpr * window.innerHeight
+                c.style.width = window.innerWidth + "px"
+                c.style.height = window.innerHeight + "px"
+
+                // HTML5 Rocks DPR hack
+                let ctx = c.getContext("2d");
+                ctx.scale(dpr, dpr)
+                ctx.lineWidth = 2;
+                ctx.lineStyle = "black";
 
                 // Draw a line on the canvas
-                let ctx = c.getContext("2d");
+                let scale = 5
                 exports.draw(ctx, 300, 200, 65, 0,
-                    scale=5)
+                    scale=scale)
                 exports.draw(ctx, 400, 200, 45, 0,
-                    scale=5)
+                    scale=scale)
                 exports.draw(ctx, 500, 200, 15, 0,
-                    scale=5)
+                    scale=scale)
                 exports.draw(ctx, 300, 100, 105, 0,
-                    scale=5)
+                    scale=scale)
                 exports.draw(ctx, 400, 100, 5, 5,
-                    scale=5)
+                    scale=scale)
                 exports.draw(ctx, 500, 100, 20, 20,
-                    scale=5)
+                    scale=scale)
             }
 
         </script>
