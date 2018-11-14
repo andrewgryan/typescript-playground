@@ -32,7 +32,6 @@ export const draw_calm = function(ctx, x, y, r) {
 export const draw_arrow = function(ctx, x, y, c, angle, scale) {
     let xs, ys
     let xys = vertices(count_tails(c))
-    ctx.translate(x, y)
     ctx.rotate(-angle)
     ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
@@ -50,7 +49,6 @@ export const draw_arrow = function(ctx, x, y, c, angle, scale) {
     ctx.stroke()
     ctx.closePath()
     ctx.rotate(angle)
-    ctx.translate(-x, -y)
 }
 
 export const vertices = function(

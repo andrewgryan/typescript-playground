@@ -10,32 +10,43 @@ def main():
                 sizing_mode="stretch_both"
             )
     glyph = wind.Barbs(x="x", y="y", u="u", v="v")
-    x = np.linspace(-30, 30, 40, dtype="f")
-    y = np.linspace(-30, 30, 40, dtype="f")
-    X, Y = np.meshgrid(x, y)
-    U = -15 * np.ones(X.shape)
-    V = 20 * np.exp(-(X**2 + Y**2) / 60) + 10 * np.sin((2 * np.pi * X) / 60)
+    points = "single"
+    if points == "single":
+        x = [100]
+        y = [200]
+        u = [0]
+        v = [-15]
+    else:
+        x = np.arange(-30, 30, 1, dtype="f")
+        y = np.arange(-30, 30, 1, dtype="f")
+        X, Y = np.meshgrid(x, y)
+        U = -15 * np.ones(X.shape)
+        V = 20 * np.exp(-(X**2 + Y**2) / 60) + 10 * np.sin((2 * np.pi * X) / 60)
+        x = X.flatten()
+        y = Y.flatten()
+        u = U.flatten()
+        v = V.flatten()
+
     source = bokeh.models.ColumnDataSource({
-            "x": X.flatten(),
-            "y": Y.flatten(),
-            "u": U.flatten(),
-            "v": V.flatten(),
+            "x": x,
+            "y": y,
+            "u": u,
+            "v": v,
         })
     figure.add_glyph(source, glyph)
 
     document = bokeh.plotting.curdoc()
     document.add_root(figure)
-    document.add_periodic_callback(periodic(source), 200)
+    # document.add_periodic_callback(periodic(source), 200)
 
 
-def periodic(source):
+def periodic(source, simulate="rotation"):
     @util.timed
     def callback():
         x = source.data["x"]
         y = source.data["y"]
         u = source.data["u"]
         v = source.data["v"]
-        simulate = "forecast"
         if simulate == "rotation":
             u, v = rotate_winds(u, v, np.pi / 4)
         else:
@@ -50,8 +61,8 @@ def periodic(source):
 
 
 def rotate_winds(u, v, angle):
-    up = (u * np.cos(theta)) - (v * np.sin(theta))
-    vp = (u * np.sin(theta)) + (v * np.cos(theta))
+    up = (u * np.cos(angle)) - (v * np.sin(angle))
+    vp = (u * np.sin(angle)) + (v * np.cos(angle))
     return up, vp
 
 
