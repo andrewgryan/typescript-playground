@@ -1,4 +1,3 @@
-import {Patches, PatchesView} from "models/glyphs/patches"
 import {RenderOne, Marker, MarkerView, MarkerData} from "models/markers/marker"
 import {Class} from "core/class"
 import {Line, Fill} from "core/visuals"
