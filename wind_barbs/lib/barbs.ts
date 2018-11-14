@@ -15,9 +15,11 @@ export const draw = function(
     let c = speed(u, v)
     let angle = direction(u, v)
     if (c < 5) {
-        draw_calm(ctx, x, y, scale * radius)
+        draw_calm(ctx, 0, 0, scale * radius)
     } else {
-        draw_arrow(ctx, x, y, c, angle, scale)
+        ctx.rotate(-angle)
+        draw_arrow(ctx, c, scale)
+        ctx.rotate(angle)
     }
 }
 
@@ -29,10 +31,9 @@ export const draw_calm = function(ctx, x, y, r) {
     ctx.closePath()
 }
 
-export const draw_arrow = function(ctx, x, y, c, angle, scale) {
+export const draw_arrow = function(ctx, c, scale) {
     let xs, ys
     let xys = vertices(count_tails(c))
-    ctx.rotate(-angle)
     ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
         xs = scale * xys[j][0]
@@ -48,7 +49,6 @@ export const draw_arrow = function(ctx, x, y, c, angle, scale) {
     ctx.strokeStyle = "black"
     ctx.stroke()
     ctx.closePath()
-    ctx.rotate(angle)
 }
 
 export const vertices = function(

@@ -165,7 +165,6 @@ describe('wind_barbs', function() {
             // Integration test to confirm canvas context
             // used correctly
             let ctx = {
-                translate: sinon.fake(),
                 rotate: sinon.fake(),
                 beginPath: sinon.fake(),
                 closePath: sinon.fake(),
@@ -181,9 +180,7 @@ describe('wind_barbs', function() {
             barbs.draw(ctx, x, y, u, v)
             // Note: the order of operation isn't being checked
             sinon.assert.calledOnce(ctx.beginPath)
-            sinon.assert.calledWith(ctx.translate, 1, 1)
             sinon.assert.calledWith(ctx.rotate, -Math.PI / 4)
-            sinon.assert.calledWith(ctx.translate, -1, -1)
             sinon.assert.calledWith(ctx.moveTo, 0, 0)
             sinon.assert.calledWith(ctx.lineTo, 0, 0)
             sinon.assert.calledWith(ctx.rotate, Math.PI / 4)

@@ -12,10 +12,10 @@ def main():
     glyph = wind.Barbs(x="x", y="y", u="u", v="v")
     points = "single"
     if points == "single":
-        x = [100]
-        y = [200]
-        u = [0]
-        v = [-15]
+        x = [100, 150]
+        y = [200, 200]
+        u = [0, 0]
+        v = [-15, 0]
     else:
         x = np.arange(-30, 30, 1, dtype="f")
         y = np.arange(-30, 30, 1, dtype="f")
