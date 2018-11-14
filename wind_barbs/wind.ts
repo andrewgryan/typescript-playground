@@ -18,14 +18,11 @@ function _mk_model(type: string, f: RenderOne): Class<Marker> {
             r: number,
             line: Line,
             fill: Fill): void {
-                let scale = 3
                 barbs.draw(
                     ctx,
-                    this._x[i],
-                    this._y[i],
                     this._u[i],
                     this._v[i],
-                    scale
+                    r
                 )
 
                 if (fill.doit) {

@@ -9,13 +9,12 @@ def main():
     figure = bokeh.plotting.figure(
                 sizing_mode="stretch_both"
             )
-    glyph = wind.Barbs(x="x", y="y", u="u", v="v")
     points = "single"
     if points == "single":
-        x = [100, 150]
-        y = [200, 200]
-        u = [0, 0]
-        v = [-15, 0]
+        x = [100, 150, 200]
+        y = [200, 200, 200]
+        u = [0, 0, 0]
+        v = [-15, 0, 65]
     else:
         x = np.arange(-30, 30, 1, dtype="f")
         y = np.arange(-30, 30, 1, dtype="f")
@@ -27,6 +26,10 @@ def main():
         u = U.flatten()
         v = V.flatten()
 
+    glyph = wind.Barbs(x="x", y="y", u="u", v="v",
+                       fill_color="white",
+                       line_color="blue",
+                       size=10)
     source = bokeh.models.ColumnDataSource({
             "x": x,
             "y": y,

@@ -7,7 +7,7 @@ export interface Arrow {
 }
 
 export const draw = function(
-    ctx, x, y, u, v,
+    ctx, u, v,
     scale=1
 ) {
     let length = 7
@@ -15,26 +15,21 @@ export const draw = function(
     let c = speed(u, v)
     let angle = direction(u, v)
     if (c < 5) {
-        draw_calm(ctx, 0, 0, scale * radius)
+        ctx.beginPath()
+        ctx.arc(0, 0, scale * radius, 0, 2 * Math.PI)
+        ctx.closePath()
     } else {
+        ctx.beginPath()
         ctx.rotate(-angle)
         draw_arrow(ctx, c, scale)
         ctx.rotate(angle)
+        ctx.closePath()
     }
-}
-
-export const draw_calm = function(ctx, x, y, r) {
-    ctx.beginPath()
-    ctx.arc(x, y, r, 0, 2 * Math.PI)
-    ctx.strokeStyle = "black"
-    ctx.stroke()
-    ctx.closePath()
 }
 
 export const draw_arrow = function(ctx, c, scale) {
     let xs, ys
     let xys = vertices(count_tails(c))
-    ctx.beginPath()
     for (let j=0; j<xys.length; j++) {
         xs = scale * xys[j][0]
         ys = -scale * xys[j][1]
@@ -44,11 +39,6 @@ export const draw_arrow = function(ctx, c, scale) {
             ctx.lineTo(xs, ys)
         }
     }
-    ctx.fillStyle = "gray"
-    ctx.fill()
-    ctx.strokeStyle = "black"
-    ctx.stroke()
-    ctx.closePath()
 }
 
 export const vertices = function(

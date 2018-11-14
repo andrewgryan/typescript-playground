@@ -35,11 +35,11 @@ describe('wind_barbs', function() {
                     calledWith = Array.from(arguments)
                 }
             }
-            let x = 0
-            let y = 0
-            let r = 1
-            barbs.draw_calm(ctx, x, y, r)
-            let expected = [x, y, r, 0, 2 * Math.PI]
+            let u = 2
+            let v = 0
+            let r = 7 * 0.15 // matplotlib settings
+            barbs.draw(ctx, u, v)
+            let expected = [0, 0, r, 0, 2 * Math.PI]
             let actual = calledWith
             expect(actual).deep.equal(expected)
         })
@@ -173,17 +173,15 @@ describe('wind_barbs', function() {
                 fill: sinon.fake(),
                 stroke: sinon.fake(),
             };
-            let x = 1;
-            let y = 1;
             let u = 5;
-            let v = 5;
-            barbs.draw(ctx, x, y, u, v)
+            let v = 0;
+            barbs.draw(ctx, u, v)
             // Note: the order of operation isn't being checked
             sinon.assert.calledOnce(ctx.beginPath)
-            sinon.assert.calledWith(ctx.rotate, -Math.PI / 4)
+            sinon.assert.calledWith(ctx.rotate, 0)
             sinon.assert.calledWith(ctx.moveTo, 0, 0)
             sinon.assert.calledWith(ctx.lineTo, 0, 0)
-            sinon.assert.calledWith(ctx.rotate, Math.PI / 4)
+            sinon.assert.calledWith(ctx.rotate, 0)
             sinon.assert.calledOnce(ctx.stroke)
             sinon.assert.calledOnce(ctx.fill)
             sinon.assert.calledOnce(ctx.closePath)
