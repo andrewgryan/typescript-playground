@@ -182,8 +182,6 @@ describe('wind_barbs', function() {
             sinon.assert.calledWith(ctx.moveTo, 0, 0)
             sinon.assert.calledWith(ctx.lineTo, 0, 0)
             sinon.assert.calledWith(ctx.rotate, 0)
-            sinon.assert.calledOnce(ctx.stroke)
-            sinon.assert.calledOnce(ctx.fill)
             sinon.assert.calledOnce(ctx.closePath)
         })
     });

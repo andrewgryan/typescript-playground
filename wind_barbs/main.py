@@ -29,7 +29,7 @@ def main():
     glyph = wind.Barbs(x="x", y="y", u="u", v="v",
                        fill_color="white",
                        line_color="blue",
-                       size=10)
+                       size=6)
     source = bokeh.models.ColumnDataSource({
             "x": x,
             "y": y,

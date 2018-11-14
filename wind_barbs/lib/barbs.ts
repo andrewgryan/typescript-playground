@@ -6,40 +6,32 @@ export interface Arrow {
     half_barbs: number;
 }
 
-export const draw = function(
-    ctx, u, v,
-    scale=1
-) {
+export const draw = function(ctx, u, v, scale=1) {
     let length = 7
     let radius = length * 0.15
     let c = speed(u, v)
     let angle = direction(u, v)
+    ctx.beginPath()
     if (c < 5) {
-        ctx.beginPath()
         ctx.arc(0, 0, scale * radius, 0, 2 * Math.PI)
-        ctx.closePath()
     } else {
-        ctx.beginPath()
         ctx.rotate(-angle)
-        draw_arrow(ctx, c, scale)
+        let x, y
+        let pts = vertices(count_tails(c))
+        for (let j=0; j<pts.length; j++) {
+            x = scale * pts[j][0]
+            y = -scale * pts[j][1]
+            if (j === 0) {
+                ctx.moveTo(x, y)
+            } else {
+                ctx.lineTo(x, y)
+            }
+        }
         ctx.rotate(angle)
-        ctx.closePath()
     }
+    ctx.closePath()
 }
 
-export const draw_arrow = function(ctx, c, scale) {
-    let xs, ys
-    let xys = vertices(count_tails(c))
-    for (let j=0; j<xys.length; j++) {
-        xs = scale * xys[j][0]
-        ys = -scale * xys[j][1]
-        if (j === 0) {
-            ctx.moveTo(xs, ys)
-        } else {
-            ctx.lineTo(xs, ys)
-        }
-    }
-}
 
 export const vertices = function(
     arrow: Arrow,
